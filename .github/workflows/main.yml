@@ -20,7 +20,7 @@ jobs:
         node-version: '20'
 
     - name: Install dependencies
-      run: npm init -y && npm install jest
+      run: npm init -y && npm install jest supertest
 
     - name: Run Automated Tests
       run: npx jest
