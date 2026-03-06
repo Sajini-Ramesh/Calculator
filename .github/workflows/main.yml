@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Using a standard Linux environment for stability
 
     steps:
     - name: Checkout code
@@ -19,14 +19,19 @@ jobs:
       with:
         node-version: '20'
 
+    # 2. Install all necessary testing tools
     - name: Install dependencies
-      run: npm init -y && npm install jest supertest @playwright/test
+      run: |
+        npm init -y
+        npm install jest supertest @playwright/test
 
-    - name: Run Automated Tests
-      run: npx jest
-      
+    # 3. Specifically install Playwright browsers and system dependencies
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
-    - name: Run UI Tests
-      run: npx playwright test
+    # 4. Run Jest tests specifically from the jest-tests folder
+    - name: Run Unit & API Tests (Jest)
+      run: npx jest jest-tests/
+      # 5. Run UI tests specifically from the e2e-tests folder
+    - name: Run Web UI Tests (Playwright)
+      run: npx playwright test e2e-tests/
